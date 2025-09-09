@@ -1,0 +1,5 @@
+- [x] Rename lists_books.html to list_books.html
+- [ ] Remove publication_year reference from library_detail.html
+- [ ] Create relationship_app/urls.py with URL patterns
+- [ ] Update main urls.py to remove direct paths
+- [ ] Update views.py to use full template paths if needed
