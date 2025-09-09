@@ -6,7 +6,7 @@ def queries():
     books_by_author = Book.objects.filter(author=author)
 
     # 2. All books in a library
-    library = Library.objects.get(name="Nairobi Public Library")
+    library = Library.objects.get(name="Library_name")
     books_in_library = library.books.all()
 
     # 3. Librarian of a library
