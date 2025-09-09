@@ -6,7 +6,8 @@ def queries():
     books_by_author = Book.objects.filter(author=author)
 
     # 2. List all books in a library
-    library = Library.objects.get(name="LibraryProject") 
+    library_name = "LibraryProject"
+    library = Library.objects.get(name=library_name)
     books_in_library = library.books.all()
 
     # 3. Retrieve the librarian for a library
