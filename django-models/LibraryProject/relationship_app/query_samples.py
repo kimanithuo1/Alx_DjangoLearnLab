@@ -1,4 +1,4 @@
-from .models import Author, Book, Library
+from .models import Author, Book, Library, Librarian
 
 def queries():
     # 1. Query all books by a specific author
@@ -12,7 +12,7 @@ def queries():
     books_in_library = library.books.all()
 
     # 3. Retrieve the librarian for a library
-    librarian = library.librarian
+    librarian = Librarian.objects.get(library=library)
 
     return books_by_author, books_in_library, librarian
 # Note: The above code assumes that the database has been populated with relevant data.
