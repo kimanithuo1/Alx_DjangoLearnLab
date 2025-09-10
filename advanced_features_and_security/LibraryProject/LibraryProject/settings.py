@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-6*0bc!q!1&=oyt^b^)f62w@$+li!l^g2mfd5zafex)!%@ncsmq'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False   # set False in production
 
 ALLOWED_HOSTS = []
 
@@ -106,6 +106,29 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+# XSS / Clickjacking / content-type
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Cookies: ensure sent over HTTPS
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+# Other recommended settings
+SECURE_HSTS_SECONDS = 31536000  # 1 year in production
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+# Add CSP if using django-csp
+# MIDDLEWARE = [
+#   'csp.middleware.CSPMiddleware',
+#   ... other middlewares ...
+# ]
+# CSP_DEFAULT_SRC = ("'self'",)
+# CSP_SCRIPT_SRC = ("'self'", 'https://trustedscripts.example.com')
+#CSP_STYLE_SRC = ("'self'", "https://fonts.googleapis.com")
+#CSP_IMG_SRC = ("'self'", "data:")
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 

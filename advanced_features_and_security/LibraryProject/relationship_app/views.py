@@ -4,6 +4,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import permission_required, user_passes_test
 from .models import Library, Book
+from .forms import BookForm
 
 
 #Home view

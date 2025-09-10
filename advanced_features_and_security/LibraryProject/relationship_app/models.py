@@ -44,8 +44,6 @@ class Book(models.Model):
             ("can_delete_book", "Can delete book"),
         ]
 
-    def __str__(self):
-        return self.title
 
 
 class Library(models.Model):
