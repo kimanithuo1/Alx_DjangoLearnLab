@@ -48,3 +48,23 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.username
+
+class Book(models.Model):
+    """
+    A simple Book model to demonstrate relationships with CustomUser.
+    """
+    title = models.CharField(max_length=255)
+    author = models.CharField(max_length=255)
+    published_date = models.DateField()
+    added_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='books')
+
+    class Meta:
+        permissions = [
+            ("can_view", "Can view book"),
+            ("can_create", "Can create book"),
+            ("can_edit", "Can edit book"),
+            ("can_delete", "Can delete book"),
+        ]
+
+    def __str__(self):
+        return self.title
