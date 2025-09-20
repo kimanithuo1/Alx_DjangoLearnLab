@@ -39,7 +39,21 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework', # Added for Django REST framework
     'api',           # Fixed: Changed from 'api_app' to 'api' to match the actual app directory name
+    'rest_framework.authtoken', # Added for token authentication
+
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ],
+}
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
