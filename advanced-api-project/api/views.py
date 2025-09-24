@@ -28,3 +28,16 @@ class BookDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     # Allow unauthenticated users to read, but restrict modification
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+
+
+"""
+API Views for Book model:
+- BookListCreateView: Handles listing all books and creating new ones.
+- BookDetailView: Handles retrieving, updating, and deleting a book by ID.
+
+Permissions:
+- Read operations (GET) are open to all users.
+- Write operations (POST, PUT, PATCH, DELETE) require authentication.
+"""
