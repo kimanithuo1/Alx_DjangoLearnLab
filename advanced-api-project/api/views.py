@@ -3,33 +3,64 @@ from .models import Book
 from .serializers import BookSerializer
 
 
-# List all books / Create a new book
-class BookListCreateView(generics.ListCreateAPIView):
+# ---------------------------
+# LIST ALL BOOKS
+# ---------------------------
+class BookListView(generics.ListAPIView):
     """
-    GET: Retrieve all books
+    GET: Retrieve all books (open to all users)
+    """
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+# ---------------------------
+# CREATE NEW BOOK
+# ---------------------------
+class BookCreateView(generics.CreateAPIView):
+    """
     POST: Create a new book (requires authentication)
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-
-    # Allow unauthenticated users to view, but restrict creation
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated]
 
 
-# Retrieve a single book / Update / Delete
-class BookDetailView(generics.RetrieveUpdateDestroyAPIView):
+# ---------------------------
+# RETRIEVE BOOK BY ID
+# ---------------------------
+class BookDetailView(generics.RetrieveAPIView):
     """
-    GET: Retrieve book by ID
-    PUT/PATCH: Update book (requires authentication)
-    DELETE: Delete book (requires authentication)
+    GET: Retrieve book by ID (open to all users)
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-
-    # Allow unauthenticated users to read, but restrict modification
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.AllowAny]
 
 
+# ---------------------------
+# UPDATE BOOK
+# ---------------------------
+class BookUpdateView(generics.UpdateAPIView):
+    """
+    PUT/PATCH: Update a book (requires authentication)
+    """
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+# ---------------------------
+# DELETE BOOK
+# ---------------------------
+class BookDeleteView(generics.DestroyAPIView):
+    """
+    DELETE: Remove a book (requires authentication)
+    """
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 
 """
