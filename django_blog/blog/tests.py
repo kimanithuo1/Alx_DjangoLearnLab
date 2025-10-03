@@ -92,3 +92,9 @@ class CommentTests(TestCase):
         resp = self.client.post(delete_url, follow=True)
         self.assertEqual(resp.status_code, 200)
         self.assertFalse(Comment.objects.filter(pk=comment.pk).exists())
+
+def test_search_by_title_and_tags(self):
+    p = Post.objects.create(title='Django tips', content='stuff', author=self.user)
+    p.tags.add('django', 'tips')
+    resp = self.client.get(reverse('blog:search'), {'q':'django'})
+    self.assertContains(resp,'Django tips')

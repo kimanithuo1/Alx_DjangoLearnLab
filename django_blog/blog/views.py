@@ -9,6 +9,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse, reverse_lazy
 from .models import Post, Comment
 from .forms import PostForm, CommentForm
+from django.db.models import Q
+from taggit.models import Tag
 
 
 # Use class-based login view or function view — here is a simple subclass
@@ -73,6 +75,26 @@ class PostDetailView(DetailView):
         ctx['comment_form'] = CommentForm()
         return ctx
 
+
+class TagPostListView(ListView):
+    model = Post
+    template_name = 'blog/post_list_by_tag.html'
+    context_object_name = 'posts'
+    paginate_by = 10
+
+    def get_queryset(self):
+        tag_name = self.kwargs.get('tag_name')
+        return Post.objects.filter(tags__name__iexact=tag_name).order_by('-published_date')
+
+def search_view(request):
+    q = request.GET.get('q', '').strip()
+    posts = Post.objects.none()
+    if q:
+        posts = Post.objects.filter(
+            Q(title__icontains=q) | Q(content__icontains=q) | Q(tags__name__icontains=q)
+        ).distinct().order_by('-published_date')
+    return render(request, 'blog/search_results.html', {'query': q, 'posts': posts})
+
 # Create comment (authenticated)
 class CommentCreateView(LoginRequiredMixin, CreateView):
     model = Comment
@@ -98,7 +120,12 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        return super().form_valid(form)
+        resp = super().form_valid(form)
+        tags_str = form.cleaned_data.get('tags', '')
+        if tags_str:
+            tags = [t.strip() for t in tags_str.split(',') if t.strip()]
+            self.object.tags.set(*tags)  # taggit accepts set() with list
+        return resp
 
 # Update a post (only author)
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -106,9 +133,20 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     form_class = PostForm
     template_name = 'blog/post_form.html'
 
-    def test_func(self):
-        post = self.get_object()
-        return self.request.user == post.author
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['tags'] = ', '.join([t.name for t in self.get_object().tags.all()])
+        return initial
+
+    def form_valid(self, form):
+        resp = super().form_valid(form)
+        tags_str = form.cleaned_data.get('tags', '')
+        if tags_str:
+            tags = [t.strip() for t in tags_str.split(',') if t.strip()]
+            self.object.tags.set(*tags)
+        else:
+            self.object.tags.clear()
+        return resp
 
 # Delete a post (only author)
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):

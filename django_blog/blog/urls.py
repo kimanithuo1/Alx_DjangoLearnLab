@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import register, profile, CustomLoginView, CustomLogoutView
+from .views import register, profile, CustomLoginView, CustomLogoutView, TagPostListView, search_view
 from django.contrib.auth import views as auth_views
 
 app_name = 'blog'
@@ -14,6 +14,8 @@ urlpatterns = [
 
 
 # Blog Post CRUD
+    path('tags/<str:tag_name>/', TagPostListView.as_view(), name='posts-by-tag'),
+    path('search/', search_view, name='search'),
     path("", views.PostListView.as_view(), name="post-list"),         # list all posts
     path("post/<int:pk>/", views.PostDetailView.as_view(), name="post-detail"),  # view a single post
     path("post/new/", views.PostCreateView.as_view(), name="post-create"),       # create a post
