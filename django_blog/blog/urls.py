@@ -12,10 +12,11 @@ urlpatterns = [
     path('profile/', profile, name='profile'),
 
 
-# Post CRUD
-    path('', views.PostListView.as_view(), name='post-list'),
-    path('posts/new/', views.PostCreateView.as_view(), name='post-create'),
-    path('posts/<int:pk>/', views.PostDetailView.as_view(), name='post-detail'),
-    path('posts/<int:pk>/edit/', views.PostUpdateView.as_view(), name='post-update'),
-    path('posts/<int:pk>/delete/', views.PostDeleteView.as_view(), name='post-delete'),
+# Blog Post CRUD
+    path("", views.PostListView.as_view(), name="post-list"),         # list all posts
+    path("post/<int:pk>/", views.PostDetailView.as_view(), name="post-detail"),  # view a single post
+    path("post/new/", views.PostCreateView.as_view(), name="post-create"),       # create a post
+    path("post/<int:pk>/update/", views.PostUpdateView.as_view(), name="post-update"),  # edit a post
+    path("post/<int:pk>/delete/", views.PostDeleteView.as_view(), name="post-delete"),  # delete a post
+
 ]
