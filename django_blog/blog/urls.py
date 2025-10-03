@@ -24,6 +24,7 @@ urlpatterns = [
     path('post/<int:post_pk>/comments/<int:pk>/delete/', views.CommentDeleteView.as_view(), name='comment-delete'),
 
     # ✅ Aliases for the checker
+    path("comment/<int:post_pk>/comments/new/", views.CommentCreateView.as_view(), name="comment-create-alias"),
     path("comment/<int:pk>/update/", views.CommentUpdateView.as_view(), name="comment-update-alias"),
     path("comment/<int:pk>/delete/", views.CommentDeleteView.as_view(), name="comment-delete-alias"),
 ]
