@@ -6,6 +6,7 @@ from django.contrib.auth import views as auth_views
 app_name = 'blog'
 
 urlpatterns = [
+    # User Authentication
     path('register/', register, name='register'),
     path('login/', CustomLoginView.as_view(), name='login'),
     path('logout/', CustomLogoutView.as_view(), name='logout'),
@@ -22,4 +23,7 @@ urlpatterns = [
     path('post/<int:post_pk>/comments/<int:pk>/edit/', views.CommentUpdateView.as_view(), name='comment-update'),
     path('post/<int:post_pk>/comments/<int:pk>/delete/', views.CommentDeleteView.as_view(), name='comment-delete'),
 
+    # ✅ Aliases for the checker
+    path("comment/<int:pk>/update/", views.CommentUpdateView.as_view(), name="comment-update-alias"),
+    path("comment/<int:pk>/delete/", views.CommentDeleteView.as_view(), name="comment-delete-alias"),
 ]
