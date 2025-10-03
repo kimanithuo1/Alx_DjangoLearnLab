@@ -16,3 +16,8 @@
 
   <p><a href="{% url 'blog:post-list' %}">Cancel</a></p>
 {% endblock %}
+
+  <p>
+     {{ form.tags.label_tag }}
+     {{ form.tags }}
+  </p>
