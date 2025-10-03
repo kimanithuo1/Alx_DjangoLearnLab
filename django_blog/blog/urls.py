@@ -15,6 +15,7 @@ urlpatterns = [
 
 # Blog Post CRUD
     path('tags/<str:tag_name>/', TagPostListView.as_view(), name='posts-by-tag'),
+    path("tags/<slug:tag_slug>/", views.PostByTagListView.as_view(), name="posts-by-tag"),
     path('search/', search_view, name='search'),
     path("", views.PostListView.as_view(), name="post-list"),         # list all posts
     path("post/<int:pk>/", views.PostDetailView.as_view(), name="post-detail"),  # view a single post

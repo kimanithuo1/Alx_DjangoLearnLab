@@ -95,6 +95,21 @@ def search_view(request):
         ).distinct().order_by('-published_date')
     return render(request, 'blog/search_results.html', {'query': q, 'posts': posts})
 
+class PostByTagListView(ListView):
+    model = Post
+    template_name = 'blog/post_list.html'  # you can reuse the same list template
+    context_object_name = 'posts'
+    paginate_by = 10
+
+    def get_queryset(self):
+        tag_slug = self.kwargs.get('tag_slug')
+        return Post.objects.filter(tags__slug=tag_slug).order_by('-published_date')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["tag_slug"] = self.kwargs.get("tag_slug")
+        return context
+
 # Create comment (authenticated)
 class CommentCreateView(LoginRequiredMixin, CreateView):
     model = Comment
